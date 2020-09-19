@@ -13,6 +13,9 @@ class VehicleResource(
         private val vehicleService: VehicleService
 ) {
 
+    /**
+     * location insert for known vehicle
+     */
     @PostMapping("/{id}/locations")
     fun postLocation(@PathVariable("id") id: String, @RequestBody location: Location): ResponseEntity<Void> {
         // TODO: store value in mongo
@@ -22,6 +25,9 @@ class VehicleResource(
         return return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
+    /**
+     * new insert for vehicle
+     */
     @PostMapping("")
     fun postVehicle(@RequestBody vehicle: Vehicle): ResponseEntity<Void> {
         if (vehicleService.saveVehicle(vehicle)) {
@@ -30,8 +36,22 @@ class VehicleResource(
         return return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
+    /**
+     * deleting known vehicle
+     */
+    @DeleteMapping("/{id}")
+    fun deleteVehicle(@PathVariable("id") id: String): ResponseEntity<Void> {
+        if (vehicleService.deleteVehicle(id)) {
+            return ResponseEntity(HttpStatus.NO_CONTENT)
+        }
+        return return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+
+    /**
+     * selecting all vehicles as list
+     */
     @GetMapping("/list")
-    fun getVehicles() : ResponseEntity<List<Vehicle>>{
+    fun getVehicles(): ResponseEntity<List<Vehicle>> {
         val allVehicle = vehicleService.findAllVehicle()
         return ResponseEntity(allVehicle, HttpStatus.OK)
     }

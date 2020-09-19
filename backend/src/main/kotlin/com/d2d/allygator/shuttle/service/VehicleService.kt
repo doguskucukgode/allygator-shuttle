@@ -12,8 +12,12 @@ class VehicleService(
 ) {
     private val logger = LoggerFactory.getLogger(VehicleService::class.java)
 
+    /**
+     * inserting vehicle
+     */
     fun saveVehicle(vehicle: Vehicle): Boolean {
         return try {
+            vehicle.deleted = false
             vehicleRepository.save(vehicle);
             true
         } catch (e: RuntimeException) {
@@ -22,9 +26,12 @@ class VehicleService(
         }
     }
 
+    /**
+     * Updating vehicle
+     */
     fun updateVehicle(id: String, location: Location): Boolean {
         return try {
-            val vehicleOptional = vehicleRepository.findById(id)
+            val vehicleOptional = vehicleRepository.findByIdAndDeleted(id, false)
             if (vehicleOptional.isPresent) {
                 val vehicle = vehicleOptional.get()
                 vehicle.lastLocation = location
@@ -39,17 +46,30 @@ class VehicleService(
         }
     }
 
-    fun deleteVehicle(vehicle: Vehicle): Boolean {
+    /**
+     * Deleting vehicle
+     */
+    fun deleteVehicle(id: String): Boolean {
         return try {
-            vehicleRepository.delete(vehicle);
-            true
+            val vehicleOptional = vehicleRepository.findByIdAndDeleted(id, false)
+            if (vehicleOptional.isPresent) {
+                val vehicle = vehicleOptional.get()
+                vehicle.deleted = true
+                vehicleRepository.save(vehicle)
+                true
+            } else {
+                false
+            }
         } catch (e: RuntimeException) {
             logger.error(e.message)
             false;
         }
     }
 
+    /**
+     * Selecting all vehicles
+     */
     fun findAllVehicle(): List<Vehicle> {
-        return vehicleRepository.findAll()
+        return vehicleRepository.findAllByDeleted(false)
     }
 }
