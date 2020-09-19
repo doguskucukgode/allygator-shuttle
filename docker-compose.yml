@@ -7,11 +7,27 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
-  
+    networks: 
+      - allygator-network
+    hostname: mongo
   mongo-express:
     image: mongo-express
     restart: always
     ports:
       - "8081:8081"
+    networks: 
+      - allygator-network
+  backend:
+    build: ./backend
+    container_name: allygator-backend
+    restart: always
+    ports:
+    - "8080:8080"
+    depends_on:
+      - mongo
+    networks: 
+      - allygator-network
 volumes:
   mongo-data:
+networks:
+  allygator-network:

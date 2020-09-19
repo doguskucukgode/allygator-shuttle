@@ -22,7 +22,7 @@ class VehicleResource(
         if (vehicleService.updateVehicle(id, location)) {
             return ResponseEntity(HttpStatus.CREATED)
         }
-        return return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
     /**
@@ -33,7 +33,7 @@ class VehicleResource(
         if (vehicleService.saveVehicle(vehicle)) {
             return ResponseEntity(HttpStatus.CREATED)
         }
-        return return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
     /**
@@ -44,7 +44,7 @@ class VehicleResource(
         if (vehicleService.deleteVehicle(id)) {
             return ResponseEntity(HttpStatus.NO_CONTENT)
         }
-        return return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
     /**
