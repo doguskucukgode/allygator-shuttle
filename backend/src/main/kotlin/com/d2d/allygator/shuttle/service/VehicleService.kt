@@ -1,10 +1,12 @@
 package com.d2d.allygator.shuttle.service
 
+import com.d2d.allygator.shuttle.dto.VehicleDto
 import com.d2d.allygator.shuttle.model.Location
 import com.d2d.allygator.shuttle.model.Vehicle
 import com.d2d.allygator.shuttle.repository.VehicleRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.util.stream.Collectors
 
 @Service
 class VehicleService(
@@ -48,6 +50,7 @@ class VehicleService(
 
     /**
      * Deleting vehicle
+     * @param id Vehicle id to be deleted
      */
     fun deleteVehicle(id: String): Boolean {
         return try {
@@ -69,7 +72,10 @@ class VehicleService(
     /**
      * Selecting all vehicles
      */
-    fun findAllVehicle(): List<Vehicle> {
-        return vehicleRepository.findAllByDeleted(false)
+    fun findAllVehicle(): List<VehicleDto> {
+        return vehicleRepository.findAllByDeletedAndLastLocationNotNull(false)
+                .stream()
+                .map { v -> VehicleDto(v.id, v.lastLocation?.lat, v.lastLocation?.lng) }
+                .collect(Collectors.toList())
     }
 }

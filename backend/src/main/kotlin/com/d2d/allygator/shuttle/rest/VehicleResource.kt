@@ -1,5 +1,6 @@
 package com.d2d.allygator.shuttle.rest
 
+import com.d2d.allygator.shuttle.dto.VehicleDto
 import com.d2d.allygator.shuttle.model.Location
 import com.d2d.allygator.shuttle.model.Vehicle
 import com.d2d.allygator.shuttle.service.VehicleService
@@ -51,7 +52,7 @@ class VehicleResource(
      * selecting all vehicles as list
      */
     @GetMapping("/list")
-    fun getVehicles(): ResponseEntity<List<Vehicle>> {
+    fun getVehicles(): ResponseEntity<List<VehicleDto>> {
         val allVehicle = vehicleService.findAllVehicle()
         return ResponseEntity(allVehicle, HttpStatus.OK)
     }
