@@ -9,7 +9,7 @@
 ## Running project with docker
  `docker-compose up -d`
  
-## Rest Api Calls
+## Rest api calls
 - ### Vehicle registration
   `POST http://localhost:8080/vehicles`
 
@@ -53,11 +53,36 @@
   [
     {
         "id": "vehicle1",
-        "lat": 10,
-        "lng": 20
-    }
+        "lat": 11,
+        "lng": 20,
+        "at": "2019-09-01T12:00:00.000+00:00"
+    },
+    {
+        "id": "vehicle2",
+        "lat": null,
+        "lng": null,
+        "at": null
+    },
   ]
   ```
+  
+ - ### Vehicle list with locations
+   `GET http://localhost:8080/vehicles/locations`
+   ```
+   NO REQUEST BODY
+   ```
+
+   ```
+   RESPONSE: HTTP-200
+   [
+     {
+         "id": "vehicle1",
+         "lat": 11,
+         "lng": 20,
+         "at": "2019-09-01T12:00:00.000+00:00"
+     }
+   ]
+   ```
 
  
  
