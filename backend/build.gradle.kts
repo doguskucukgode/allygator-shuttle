@@ -38,6 +38,7 @@ dependencies {
     //developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.mockito:mockito-junit-jupiter:3.5.11")
 }
 
 tasks.withType<Test> {
