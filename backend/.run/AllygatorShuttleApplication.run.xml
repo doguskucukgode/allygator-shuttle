@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="AllygatorShuttleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="shuttle.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.d2d.allygator.shuttle.AllygatorShuttleApplication" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <envs>
+      <env name="MONGO_DB" value="allygator_db" />
+      <env name="MONGO_HOST" value="localhost" />
+      <env name="MONGO_PORT" value="27017" />
+    </envs>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -27,6 +27,10 @@ services:
       - mongo
     networks: 
       - allygator-network
+    environment:
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - MONGO_DB=allygator_db
 volumes:
   mongo-data:
 networks:
