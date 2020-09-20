@@ -9,5 +9,6 @@ import java.util.*
  */
 interface VehicleRepository : MongoRepository<Vehicle, String> {
     fun findAllByDeletedAndLastLocationNotNull(deleted: Boolean): List<Vehicle>
+    fun findAllByDeleted(deleted: Boolean): List<Vehicle>
     fun findByIdAndDeleted(id:String, deleted: Boolean): Optional<Vehicle>
 }

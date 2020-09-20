@@ -51,9 +51,18 @@ class VehicleResource(
     /**
      * selecting all vehicles as list
      */
-    @GetMapping("/list")
+    @GetMapping("/locations")
     fun getVehicles(): ResponseEntity<List<VehicleDto>> {
-        val allVehicle = vehicleService.findAllVehicle()
+        val allVehicle = vehicleService.findAllVehiclesWithLocations()
+        return ResponseEntity(allVehicle, HttpStatus.OK)
+    }
+
+    /**
+     * selecting all vehicles as list
+     */
+    @GetMapping("/list")
+    fun getAllVehicles(): ResponseEntity<List<VehicleDto>> {
+        val allVehicle = vehicleService.findAllVehicles()
         return ResponseEntity(allVehicle, HttpStatus.OK)
     }
 
