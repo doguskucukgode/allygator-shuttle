@@ -7,7 +7,7 @@
 
 
 ## Running project with docker
- `docker-compose up -d`
+Project can be run with docker-compose basicly type `docker-compose up -d` in root foolder. Backend can be accesible at http://localhost:8080 , mongo express at http://localhost:8081 and frontend at http://localhost:3000
  
 ## Rest api calls
 - ### Vehicle registration
