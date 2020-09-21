@@ -4,12 +4,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
 @Document(collection = "vehicle")
-class Vehicle(id: String) {
-
-    @Id
-    var id: String? = id
-    var lastLocation: Location? = null
-    var deleted: Boolean = false
+class Vehicle(@Id var id: String, var lastLocation: Location? = null, var deleted: Boolean = false) {
 
     override fun equals(other: Any?) = (other is Vehicle)
             && id != null

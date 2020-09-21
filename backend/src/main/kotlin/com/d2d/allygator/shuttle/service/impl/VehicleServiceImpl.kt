@@ -17,6 +17,7 @@ class VehicleServiceImpl(
 
     /**
      * inserting vehicle
+     * @param vehicle vehicle to be inserted
      */
     override fun saveVehicle(vehicle: Vehicle): Boolean {
         return try {
@@ -31,6 +32,8 @@ class VehicleServiceImpl(
 
     /**
      * Updating vehicle
+     *  @param id Vehicle id to be updated
+     *  @param location last location to be set to vehicle
      */
     override fun updateVehicle(id: String, location: Location): Boolean {
         return try {
