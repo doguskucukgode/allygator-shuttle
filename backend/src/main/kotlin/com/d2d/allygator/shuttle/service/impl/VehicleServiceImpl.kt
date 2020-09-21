@@ -1,5 +1,6 @@
 package com.d2d.allygator.shuttle.service.impl
 
+import com.d2d.allygator.shuttle.config.PropertiesConfig
 import com.d2d.allygator.shuttle.dto.VehicleDto
 import com.d2d.allygator.shuttle.model.Location
 import com.d2d.allygator.shuttle.model.Vehicle
@@ -7,11 +8,14 @@ import com.d2d.allygator.shuttle.repository.VehicleRepository
 import com.d2d.allygator.shuttle.service.VehicleService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.time.temporal.ChronoUnit
 import java.util.stream.Collectors
+
 
 @Service
 class VehicleServiceImpl(
-        private val vehicleRepository: VehicleRepository
+        private val vehicleRepository: VehicleRepository,
+        private val propertiesConfig: PropertiesConfig
 ) : VehicleService {
     private val logger = LoggerFactory.getLogger(VehicleServiceImpl::class.java)
 
@@ -40,17 +44,21 @@ class VehicleServiceImpl(
             val vehicleOptional = vehicleRepository.findByIdAndDeleted(id, false)
             if (vehicleOptional.isPresent) {
                 val vehicle = vehicleOptional.get()
-                vehicle.lastLocation = location
-                vehicleRepository.save(vehicle)
-                true
-            } else {
-                false
+                if (checkTime(vehicle.lastLocation, location)) {
+                    vehicle.lastLocation = location
+                    vehicleRepository.save(vehicle)
+                    return true
+                }
             }
+            return false
         } catch (e: RuntimeException) {
             logger.error(e.message)
-            false;
+            false
         }
     }
+
+    private fun checkTime(oldLocation: Location?, newLocation: Location) = oldLocation == null ||
+            ChronoUnit.SECONDS.between(oldLocation.at, newLocation.at) > propertiesConfig.locationInsertInterval
 
     /**
      * Deleting vehicle

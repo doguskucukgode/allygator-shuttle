@@ -1,5 +1,6 @@
 package com.d2d.allygator.shuttle.service.impl
 
+import com.d2d.allygator.shuttle.config.PropertiesConfig
 import com.d2d.allygator.shuttle.dto.VehicleDto
 import com.d2d.allygator.shuttle.model.Location
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -28,17 +29,17 @@ class VehicleServiceImplTest {
 
     private lateinit var vehicleServiceImpl: VehicleServiceImpl
     @Mock private lateinit var vehicleRepository: VehicleRepository
+    @Mock private lateinit var propertiesConfig: PropertiesConfig
 
     @BeforeEach
     fun setUp() {
-        vehicleServiceImpl = VehicleServiceImpl(vehicleRepository)
+        vehicleServiceImpl = VehicleServiceImpl(vehicleRepository, propertiesConfig)
     }
 
     @Test
     fun givenDeletedVehicleWhenSaveVehicleThenAssertVehicleInserted() {
         // Arrange
-        val vehicle = Vehicle(id = VEHICLE_NAME1)
-        vehicle.deleted = true
+        val vehicle = Vehicle(id = VEHICLE_NAME1, deleted = true)
         Mockito.`when`(vehicleRepository.save(vehicle)).thenReturn(vehicle)
         // Act
         val result = vehicleServiceImpl.saveVehicle(vehicle)
@@ -51,8 +52,7 @@ class VehicleServiceImplTest {
     @Test
     fun givenVehicleWhenSaveVehicleThenThrowsException() {
         // Arrange
-        val vehicle = Vehicle(id = VEHICLE_NAME1)
-        vehicle.deleted = true
+        val vehicle = Vehicle(id = VEHICLE_NAME1, deleted = true)
         Mockito.`when`(vehicleRepository.save(vehicle)).thenThrow(RuntimeException::class.java)
         // Act
         val result = vehicleServiceImpl.saveVehicle(vehicle)
@@ -64,9 +64,8 @@ class VehicleServiceImplTest {
     @Test
     fun givenVehicleWhenUpdateVehicleThenAssertVehicleLocation() {
         // Arrange
-        val vehicle = Vehicle(id = VEHICLE_NAME1)
+        val vehicle = Vehicle(id = VEHICLE_NAME1, deleted = true)
         val location = Location(LOCATION_LAT, LOCATION_LNG, LOCATION_DATE)
-        vehicle.deleted = true
         Mockito.`when`(vehicleRepository.save(vehicle)).thenReturn(vehicle)
         Mockito.`when`(vehicleRepository.findByIdAndDeleted(VEHICLE_NAME1, false))
                 .thenReturn(Optional.of(vehicle))
@@ -166,5 +165,20 @@ class VehicleServiceImplTest {
         assertAll(VEHICLE_NAME1,
                 { assertEquals(1, result.size)},
                 { assertEquals(vehicleDto, result[0])})
+    }
+
+    @Test
+    fun givenVehicleUpdatedTwoSecondEarlierWhenUpdateVehicleThenAssertVehicleNotUpdated() {
+        // Arrange
+        val oldLocation = Location(LOCATION_LAT, LOCATION_LNG, LOCATION_DATE)
+        val newLocation = Location(LOCATION_LAT, LOCATION_LNG, LOCATION_DATE.plusSeconds(2))
+        val vehicle = Vehicle(id = VEHICLE_NAME1, deleted = true, lastLocation = oldLocation)
+        Mockito.`when`(vehicleRepository.findByIdAndDeleted(VEHICLE_NAME1, false))
+                .thenReturn(Optional.of(vehicle))
+        Mockito.`when`(propertiesConfig.locationInsertInterval).thenReturn(3);
+        // Act
+        val result = vehicleServiceImpl.updateVehicle(VEHICLE_NAME1, newLocation)
+        // Assert
+        assertEquals(result, false)
     }
 }
