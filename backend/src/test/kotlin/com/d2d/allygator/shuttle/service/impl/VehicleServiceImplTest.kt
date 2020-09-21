@@ -37,28 +37,24 @@ class VehicleServiceImplTest {
     }
 
     @Test
-    fun givenDeletedVehicleWhenSaveVehicleThenAssertVehicleInserted() {
+    fun givenVehicleWhenSaveVehicleThenAssertVehicleInserted() {
         // Arrange
-        val vehicle = Vehicle(id = VEHICLE_NAME1, deleted = true)
+        val vehicle = Vehicle(id = VEHICLE_NAME1)
         Mockito.`when`(vehicleRepository.save(vehicle)).thenReturn(vehicle)
         // Act
-        val result = vehicleServiceImpl.saveVehicle(vehicle)
+        val result = vehicleServiceImpl.saveVehicle(VehicleDto(id = VEHICLE_NAME1))
         // Assert
-        assertAll(VEHICLE_NAME1,
-                { assertEquals(result, true)},
-                { assertEquals(vehicle.deleted, false)})
+        assertEquals(result, true)
     }
 
     @Test
     fun givenVehicleWhenSaveVehicleThenThrowsException() {
         // Arrange
-        val vehicle = Vehicle(id = VEHICLE_NAME1, deleted = true)
+        val vehicle = Vehicle(id = VEHICLE_NAME1)
         Mockito.`when`(vehicleRepository.save(vehicle)).thenThrow(RuntimeException::class.java)
         // Act
-        val result = vehicleServiceImpl.saveVehicle(vehicle)
-        assertAll(VEHICLE_NAME1,
-                { assertEquals(result, false)},
-                { assertEquals(vehicle.deleted, false)})
+        val result = vehicleServiceImpl.saveVehicle(VehicleDto(id = VEHICLE_NAME1))
+        assertEquals(result, false)
     }
 
     @Test

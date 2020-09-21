@@ -48,7 +48,7 @@ class VehicleResourceTest {
 
     @Test
     fun testShouldSaveVehicle() {
-        val vehicle = Vehicle(VEHICLE_NAME1)
+        val vehicle = VehicleDto(id = VEHICLE_NAME1)
         Mockito.`when`(vehicleService.saveVehicle(vehicle)).thenReturn(true)
         mockMvc.perform(MockMvcRequestBuilders.post(VEHICLES_ENDPOINT)
                 .accept(MediaType.ALL).content(POST_VEHICLE).contentType(APP_JSON))
@@ -57,7 +57,7 @@ class VehicleResourceTest {
 
     @Test
     fun testShouldNotSaveVehicle() {
-        val vehicle = Vehicle(VEHICLE_NAME1)
+        val vehicle = VehicleDto(id = VEHICLE_NAME1)
         Mockito.`when`(vehicleService.saveVehicle(vehicle)).thenReturn(false)
         mockMvc.perform(MockMvcRequestBuilders.post(VEHICLES_ENDPOINT)
                 .accept(MediaType.ALL).content(getAsJson(vehicle)).contentType(APP_JSON))

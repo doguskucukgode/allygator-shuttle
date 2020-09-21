@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service
 import java.time.temporal.ChronoUnit
 import java.util.stream.Collectors
 
-
 @Service
 class VehicleServiceImpl(
         private val vehicleRepository: VehicleRepository,
@@ -23,9 +22,9 @@ class VehicleServiceImpl(
      * inserting vehicle
      * @param vehicle vehicle to be inserted
      */
-    override fun saveVehicle(vehicle: Vehicle): Boolean {
+    override fun saveVehicle(vehicleDto: VehicleDto): Boolean {
         return try {
-            vehicle.deleted = false
+            val vehicle = Vehicle(id = vehicleDto.id, deleted = false)
             vehicleRepository.save(vehicle);
             true
         } catch (e: RuntimeException) {
@@ -57,6 +56,11 @@ class VehicleServiceImpl(
         }
     }
 
+    /**
+     * checking time difference between two location dates
+     * @param oldLocation old location instance
+     * @param newLocation new location instance
+     */
     private fun checkTime(oldLocation: Location?, newLocation: Location) = oldLocation == null ||
             ChronoUnit.SECONDS.between(oldLocation.at, newLocation.at) > propertiesConfig.locationInsertInterval
 

@@ -30,7 +30,7 @@ class VehicleResource(
      * new insert for vehicle
      */
     @PostMapping("")
-    fun postVehicle(@RequestBody vehicle: Vehicle): ResponseEntity<Void> {
+    fun postVehicle(@RequestBody vehicle: VehicleDto): ResponseEntity<Void> {
         if (vehicleService.saveVehicle(vehicle)) {
             return ResponseEntity(HttpStatus.CREATED)
         }
