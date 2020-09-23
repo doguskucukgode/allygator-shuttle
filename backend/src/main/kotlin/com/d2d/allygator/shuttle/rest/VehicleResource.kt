@@ -17,6 +17,7 @@ class VehicleResource(
     /**
      * location insert for known vehicle
      */
+    @CrossOrigin
     @PostMapping("/{id}/locations")
     fun postLocation(@PathVariable("id") id: String, @RequestBody location: Location): ResponseEntity<Void> {
         // TODO: store value in mongo
@@ -29,6 +30,7 @@ class VehicleResource(
     /**
      * new insert for vehicle
      */
+    @CrossOrigin
     @PostMapping("")
     fun postVehicle(@RequestBody vehicle: VehicleDto): ResponseEntity<Void> {
         if (vehicleService.saveVehicle(vehicle)) {
@@ -40,6 +42,7 @@ class VehicleResource(
     /**
      * deleting known vehicle
      */
+    @CrossOrigin
     @DeleteMapping("/{id}")
     fun deleteVehicle(@PathVariable("id") id: String): ResponseEntity<Void> {
         if (vehicleService.deleteVehicle(id)) {
@@ -51,6 +54,7 @@ class VehicleResource(
     /**
      * selecting all vehicles as list
      */
+    @CrossOrigin
     @GetMapping("/locations")
     fun getVehicles(): ResponseEntity<List<VehicleDto>> {
         val allVehicle = vehicleService.findAllVehiclesWithLocations()
@@ -60,6 +64,7 @@ class VehicleResource(
     /**
      * selecting all vehicles as list
      */
+    @CrossOrigin
     @GetMapping("/list")
     fun getAllVehicles(): ResponseEntity<List<VehicleDto>> {
         val allVehicle = vehicleService.findAllVehicles()

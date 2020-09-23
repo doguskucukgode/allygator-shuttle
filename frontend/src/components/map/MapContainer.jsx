@@ -3,6 +3,8 @@ import GoogleMapReact from 'google-map-react';
 import supercluster from 'points-cluster';
 import Marker from './Marker';
 import ClusterMarker from './ClusterMarker';
+import axios from "axios";
+import DefaultConstants from '../../config/Constants';
 
 const MAP = {
     defaultZoom: 8,
@@ -22,26 +24,33 @@ export class MapContainer extends React.PureComponent {
             zoom: 11,
             bounds: {}
         },
-        clusters: []
+        clusters: [],
+        markers: []
     };
 
-    markersData() {
-        return [{ id: '1', lat: 52.63, lng: 13.503 },
-        { id: '2', lat: 52.68, lng: 13.533 },
-        { id: '3', lat: 52.78, lng: 13.539 },
-        { id: '4', lat: 52.54, lng: 13.542 },
-        { id: '5', lat: 52.75, lng: 13.54 }
-        ]
-    }
-
     getClusters = () => {
-        const clusters = supercluster(this.markersData(), {
+        const clusters = supercluster(this.state.markers, {
             minZoom: 0,
             maxZoom: 16,
             radius: 60,
         });
         return clusters(this.state.options);
     };
+
+    componentDidMount() {
+        const interval = setInterval(() => {
+            axios
+            .get(DefaultConstants.API_BASE_URL + DefaultConstants.API_VEHICLE_LOCATIONS)
+            .then(({ data }) => {
+                this.setState({ markers: data },
+                    () => {
+                        this.createClusters(this.props);
+                    })
+            });
+
+        }, 1000);
+        return () => clearInterval(interval);
+    }
 
     mapChange = ({ center, zoom, bounds }) => {
         this.setState(
@@ -72,7 +81,6 @@ export class MapContainer extends React.PureComponent {
         });
     };
 
-
     render() {
         return (
             <div style={{ height: '100vh', width: '100%' }}>
@@ -82,6 +90,7 @@ export class MapContainer extends React.PureComponent {
                     onChange={this.mapChange}
                     options={MAP.options}
                     yesIWantToUseGoogleMapApiInternals
+                    bootstrapURLKeys={{ key: 'AIzaSyBpi7tqELqp-rvD0SI1lmrlEe0whsAA7vc' }}
                 >
                     {this.state.clusters.map(item => {
                         if (item.numPoints === 1) {
