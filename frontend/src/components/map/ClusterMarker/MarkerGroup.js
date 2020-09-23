@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { easyMove } from '../../style-constants';
+import { easyMove } from '../../../style-constants';
 
 const MarkerGroup = styled.div`
   display: flex;

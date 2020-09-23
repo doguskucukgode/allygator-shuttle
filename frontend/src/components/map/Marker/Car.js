@@ -2,9 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Car(props) {
-  const styles = {
-    transform: `scale(${props.scale})`,
-  };
 
   return (
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"

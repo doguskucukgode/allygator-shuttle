@@ -1,14 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Provider } from "react-redux";
 import './App.css';
-import SimpleMap from './map/SimpleMap';
-import GoogleMapContainer from './map/GoogleMapContainer';
-import MapContainer from './map/MapContainer';
+import MapContainer from './components/map/MapContainer';
+import configureStore from './store/RootStore';
+
+const store = configureStore();
 
 function App() {
   return (
     <div className="App">
-      <MapContainer/>
+      <Provider store={store}>
+        <MapContainer />
+      </Provider>
     </div>
   );
 }

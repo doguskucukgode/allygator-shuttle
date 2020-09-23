@@ -43,7 +43,6 @@ export class MapContainer extends React.PureComponent {
         return clusters(this.state.options);
     };
 
-
     mapChange = ({ center, zoom, bounds }) => {
         this.setState(
             {
@@ -83,7 +82,6 @@ export class MapContainer extends React.PureComponent {
                     onChange={this.mapChange}
                     options={MAP.options}
                     yesIWantToUseGoogleMapApiInternals
-                    bootstrapURLKeys={{ key: 'No-API-KEY' }}
                 >
                     {this.state.clusters.map(item => {
                         if (item.numPoints === 1) {
@@ -95,7 +93,6 @@ export class MapContainer extends React.PureComponent {
                                 />
                             );
                         }
-
                         return (
                             <ClusterMarker
                                 key={item.id}

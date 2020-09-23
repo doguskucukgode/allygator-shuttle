@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import MarkerStyled from './MarkerStyled';
 import MarkerInGroupStyled from './MarkerInGroupStyled';
 import Car from './Car';
-import Spy from './Spy';
 
 class Marker extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
