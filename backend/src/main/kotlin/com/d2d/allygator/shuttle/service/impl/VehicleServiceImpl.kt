@@ -1,5 +1,6 @@
 package com.d2d.allygator.shuttle.service.impl
 
+import com.d2d.allygator.shuttle.Util
 import com.d2d.allygator.shuttle.config.PropertiesConfig
 import com.d2d.allygator.shuttle.dto.VehicleDto
 import com.d2d.allygator.shuttle.model.Location
@@ -26,6 +27,7 @@ class VehicleServiceImpl(
         return try {
             val vehicle = Vehicle(id = vehicleDto.id, deleted = false)
             vehicleRepository.save(vehicle);
+            logger.debug(String.format("Vehicle %s registered", vehicleDto.id))
             true
         } catch (e: RuntimeException) {
             logger.error(e.message)
@@ -44,10 +46,21 @@ class VehicleServiceImpl(
             if (vehicleOptional.isPresent) {
                 val vehicle = vehicleOptional.get()
                 if (checkTime(vehicle.lastLocation, location)) {
-                    vehicle.lastLocation = location
-                    vehicleRepository.save(vehicle)
-                    return true
+                    if (!propertiesConfig.locationCenterDistanceCheck
+                            || Util.distance(propertiesConfig.locationCenterLat, propertiesConfig.locationCenterLng,
+                            location.lat, location.lng, "K") <= propertiesConfig.locationCenterRadius) {
+                        vehicle.lastLocation = location
+                        vehicleRepository.save(vehicle)
+                        logger.warn(String.format("Vehicle %s posted new location %s - %s", id, location.lat, location.lng))
+                        return true
+                    } else {
+                        logger.warn(String.format("Vehicle %s tried to post location out of radius", id))
+                    }
+                } else {
+                    logger.warn(String.format("Vehicle %s tried to post location less than accepted interval", id))
                 }
+            } else {
+                logger.warn(String.format("Vehicle %s is not present, cannot post location", id))
             }
             return false
         } catch (e: RuntimeException) {
@@ -62,7 +75,7 @@ class VehicleServiceImpl(
      * @param newLocation new location instance
      */
     private fun checkTime(oldLocation: Location?, newLocation: Location) = oldLocation == null ||
-            ChronoUnit.SECONDS.between(oldLocation.at, newLocation.at) > propertiesConfig.locationInsertInterval
+            ChronoUnit.SECONDS.between(oldLocation.at, newLocation.at) >= propertiesConfig.locationInsertInterval
 
     /**
      * Deleting vehicle
@@ -75,8 +88,10 @@ class VehicleServiceImpl(
                 val vehicle = vehicleOptional.get()
                 vehicle.deleted = true
                 vehicleRepository.save(vehicle)
+                logger.debug(String.format("Vehicle %s de-registered", id))
                 true
             } else {
+                logger.warn(String.format("Vehicle %s is not present, can not delete vehicle", id))
                 false
             }
         } catch (e: RuntimeException) {
