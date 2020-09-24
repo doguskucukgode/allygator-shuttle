@@ -2,9 +2,11 @@ import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import supercluster from 'points-cluster';
 import Marker from './Marker';
+import DrawMap from './DrawMap';
 import ClusterMarker from './ClusterMarker';
 import axios from "axios";
 import DefaultConstants from '../../config/Constants';
+import { runInThisContext } from 'vm';
 
 const MAP = {
     defaultZoom: 8,
@@ -13,7 +15,6 @@ const MAP = {
     },
 };
 
-
 export class MapContainer extends React.PureComponent {
 
     state = {
@@ -21,11 +22,12 @@ export class MapContainer extends React.PureComponent {
             center: {
                 lat: 52.53, lng: 13.403
             },
-            zoom: 11,
+            zoom: 13,
             bounds: {}
         },
         clusters: [],
-        markers: []
+        markers: [],
+        radius: 3500
     };
 
     getClusters = () => {
@@ -40,13 +42,13 @@ export class MapContainer extends React.PureComponent {
     componentDidMount() {
         const interval = setInterval(() => {
             axios
-            .get(DefaultConstants.API_BASE_URL + DefaultConstants.API_VEHICLE_LOCATIONS)
-            .then(({ data }) => {
-                this.setState({ markers: data },
-                    () => {
-                        this.createClusters(this.props);
-                    })
-            });
+                .get(DefaultConstants.API_BASE_URL + DefaultConstants.API_VEHICLE_LOCATIONS)
+                .then(({ data }) => {
+                    this.setState({ markers: data },
+                        () => {
+                            this.createClusters(this.props);
+                        })
+                });
 
         }, 1000);
         return () => clearInterval(interval);
@@ -90,7 +92,7 @@ export class MapContainer extends React.PureComponent {
                     onChange={this.mapChange}
                     options={MAP.options}
                     yesIWantToUseGoogleMapApiInternals
-                    bootstrapURLKeys={{ key: 'AIzaSyBpi7tqELqp-rvD0SI1lmrlEe0whsAA7vc' }}
+                    onGoogleApiLoaded={({ map, maps }) => DrawMap(map, maps)}
                 >
                     {this.state.clusters.map(item => {
                         if (item.numPoints === 1) {

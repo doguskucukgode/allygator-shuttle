@@ -8,7 +8,7 @@ import java.util.*
  *  Basic DB operations for Vehicle class (insert, delete, select)
  */
 interface VehicleRepository : MongoRepository<Vehicle, String> {
-    fun findAllByDeletedAndLastLocationNotNull(deleted: Boolean): List<Vehicle>
+    fun findAllByDeletedAndVisibleAndLastLocationNotNull(deleted: Boolean, visible: Boolean): List<Vehicle>
     fun findAllByDeleted(deleted: Boolean): List<Vehicle>
     fun findByIdAndDeleted( id:String, deleted: Boolean): Optional<Vehicle>
 }

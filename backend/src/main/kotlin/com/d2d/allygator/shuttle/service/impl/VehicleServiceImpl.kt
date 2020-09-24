@@ -25,7 +25,7 @@ class VehicleServiceImpl(
      */
     override fun saveVehicle(vehicleDto: VehicleDto): Boolean {
         return try {
-            val vehicle = Vehicle(id = vehicleDto.id, deleted = false)
+            val vehicle = Vehicle(id = vehicleDto.id, deleted = false, visible = false)
             vehicleRepository.save(vehicle);
             logger.debug(String.format("Vehicle %s registered", vehicleDto.id))
             true
@@ -49,13 +49,15 @@ class VehicleServiceImpl(
                     if (!propertiesConfig.locationCenterDistanceCheck
                             || Util.distance(propertiesConfig.locationCenterLat, propertiesConfig.locationCenterLng,
                             location.lat, location.lng, "K") <= propertiesConfig.locationCenterRadius) {
-                        vehicle.lastLocation = location
-                        vehicleRepository.save(vehicle)
-                        logger.warn(String.format("Vehicle %s posted new location %s - %s", id, location.lat, location.lng))
-                        return true
+                        vehicle.visible = true;
                     } else {
-                        logger.warn(String.format("Vehicle %s tried to post location out of radius", id))
+                        vehicle.visible = false;
+                        logger.warn(String.format("Vehicle %s is out of range", id))
                     }
+                    vehicle.lastLocation = location
+                    vehicleRepository.save(vehicle)
+                    logger.warn(String.format("Vehicle %s posted new location %s - %s", id, location.lat, location.lng))
+                    return true
                 } else {
                     logger.warn(String.format("Vehicle %s tried to post location less than accepted interval", id))
                 }
@@ -104,7 +106,7 @@ class VehicleServiceImpl(
      * Selecting all vehicles with locations not null
      */
     override fun findAllVehiclesWithLocations(): List<VehicleDto> {
-        return vehicleRepository.findAllByDeletedAndLastLocationNotNull(false)
+        return vehicleRepository.findAllByDeletedAndVisibleAndLastLocationNotNull(false, true)
                 .stream()
                 .map { v -> VehicleDto(v.id, v.lastLocation?.lat, v.lastLocation?.lng, v.lastLocation?.at) }
                 .collect(Collectors.toList())
