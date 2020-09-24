@@ -7,6 +7,11 @@
       <env name="MONGO_DB" value="allygator_db" />
       <env name="MONGO_HOST" value="localhost" />
       <env name="MONGO_PORT" value="27017" />
+      <env name="CENTER_LAT" value="52.53" />
+      <env name="CENTER_LNG" value="13.403" />
+      <env name="CENTER_RADIUS" value="3500" />
+      <env name="CENTER_RADIUS_CHECK" value="true" />
+      <env name="LOCATION_INSERT_INTERVAL" value="3" />
     </envs>
     <method v="2">
       <option name="Make" enabled="true" />

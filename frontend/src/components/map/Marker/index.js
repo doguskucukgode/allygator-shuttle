@@ -10,7 +10,7 @@ class Marker extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   static defaultProps = {
     inGroup: false,
-    text: ''
+    direction: '0'
   };
 
   render() {
@@ -21,7 +21,7 @@ class Marker extends React.PureComponent {
               <Car scale="0.55" />
             </MarkerInGroupStyled>
           : <div> 
-            <ArrowTop direction={this.props.text}/>
+            <ArrowTop direction={this.props.direction}/>
             <MarkerStyled>
               <Car scale="0.55" />
             </MarkerStyled>

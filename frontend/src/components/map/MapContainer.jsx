@@ -8,13 +8,6 @@ import axios from "axios";
 import DefaultConstants from '../../config/Constants';
 import { runInThisContext } from 'vm';
 
-const MAP = {
-    defaultZoom: 8,
-    options: {
-        maxZoom: 19
-    },
-};
-
 export class MapContainer extends React.PureComponent {
 
     state = {
@@ -90,7 +83,6 @@ export class MapContainer extends React.PureComponent {
                     defaultCenter={this.state.options.center}
                     defaultZoom={this.state.options.zoom}
                     onChange={this.mapChange}
-                    options={MAP.options}
                     yesIWantToUseGoogleMapApiInternals
                     onGoogleApiLoaded={({ map, maps }) => DrawMap(map, maps)}
                 >
@@ -101,7 +93,7 @@ export class MapContainer extends React.PureComponent {
                                     key={item.id}
                                     lat={item.points[0].lat}
                                     lng={item.points[0].lng}
-                                    text={item.points[0].direction}
+                                    direction={item.points[0].direction}
                                 />
                             );
                         }
