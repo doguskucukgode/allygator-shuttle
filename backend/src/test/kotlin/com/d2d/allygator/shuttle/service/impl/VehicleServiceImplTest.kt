@@ -140,7 +140,7 @@ class VehicleServiceImplTest {
         // Arrange
         val location = Location(LOCATION_LAT, LOCATION_LNG, LOCATION_DATE)
         val vehicle = Vehicle(id = VEHICLE_NAME1, lastLocation = location)
-        Mockito.`when`(vehicleRepository.findAllByDeletedAndLastLocationNotNull(false))
+        Mockito.`when`(vehicleRepository.findAllByDeletedAndVisibleAndLastLocationNotNull(false, true))
                 .thenReturn(listOf(vehicle))
         // Act
         val result = vehicleServiceImpl.findAllVehiclesWithLocations();
