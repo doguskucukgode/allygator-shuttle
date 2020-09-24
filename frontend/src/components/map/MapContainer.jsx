@@ -101,12 +101,14 @@ export class MapContainer extends React.PureComponent {
                                     key={item.id}
                                     lat={item.points[0].lat}
                                     lng={item.points[0].lng}
+                                    text={item.points[0].direction}
                                 />
                             );
                         }
                         return (
                             <ClusterMarker
                                 key={item.id}
+                                text={item.id}
                                 lat={item.lat}
                                 lng={item.lng}
                                 points={item.points}

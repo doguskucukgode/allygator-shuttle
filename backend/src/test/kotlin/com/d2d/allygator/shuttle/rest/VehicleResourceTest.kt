@@ -37,8 +37,8 @@ class VehicleResourceTest {
     private val LOCATION_DATE  = LocalDateTime.parse("2017-09-01T12:00:00")
     private val POST_VEHICLE = "{ \"id\": \"vehicle1\" }"
     private val POST_LOCATION = "{ \"lat\": 10.0, \"lng\": 20.0, \"at\": \"2017-09-01T12:00:00Z\" }"
-    private val GET_VEHICLE_LOCATION = "[{\"id\":\"vehicle1\",\"lat\":10.0,\"lng\":20.0,\"at\":\"2017-09-01T12:00:00\"}," +
-            "{\"id\":\"vehicle2\",\"lat\":10.0,\"lng\":20.0,\"at\":\"2017-09-01T12:00:00\"}]"
+    private val GET_VEHICLE_LOCATION = "[{\"id\":\"vehicle1\",\"lat\":10.0,\"lng\":20.0,\"at\":\"2017-09-01T12:00:00\",\"direction\":null}," +
+            "{\"id\":\"vehicle2\",\"lat\":10.0,\"lng\":20.0,\"at\":\"2017-09-01T12:00:00\",\"direction\":null}]"
     private val APP_JSON = "application/json"
 
     fun getAsJson(objects: Any) : String {

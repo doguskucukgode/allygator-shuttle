@@ -1,6 +1,6 @@
 package com.d2d.allygator.shuttle.service.impl
 
-import com.d2d.allygator.shuttle.Util
+import com.d2d.allygator.shuttle.util.Util
 import com.d2d.allygator.shuttle.config.PropertiesConfig
 import com.d2d.allygator.shuttle.dto.VehicleDto
 import com.d2d.allygator.shuttle.model.Location
@@ -48,15 +48,20 @@ class VehicleServiceImpl(
                 if (checkTime(vehicle.lastLocation, location)) {
                     if (!propertiesConfig.locationCenterDistanceCheck
                             || Util.distance(propertiesConfig.locationCenterLat, propertiesConfig.locationCenterLng,
-                            location.lat, location.lng, "K") <= propertiesConfig.locationCenterRadius) {
+                            location.lat, location.lng, "M") <= propertiesConfig.locationCenterRadius) {
                         vehicle.visible = true;
                     } else {
                         vehicle.visible = false;
                         logger.warn(String.format("Vehicle %s is out of range", id))
                     }
+                    // calculate direction
+                    if(vehicle.lastLocation != null) {
+                        vehicle.direction = Util.angleBetweenPoints(vehicle.lastLocation!!.lat,
+                                vehicle.lastLocation!!.lng, location.lat, location.lng);
+                    }
                     vehicle.lastLocation = location
                     vehicleRepository.save(vehicle)
-                    logger.warn(String.format("Vehicle %s posted new location %s - %s", id, location.lat, location.lng))
+                    logger.debug(String.format("Vehicle %s posted new location %s - %s", id, location.lat, location.lng))
                     return true
                 } else {
                     logger.warn(String.format("Vehicle %s tried to post location less than accepted interval", id))
@@ -108,7 +113,7 @@ class VehicleServiceImpl(
     override fun findAllVehiclesWithLocations(): List<VehicleDto> {
         return vehicleRepository.findAllByDeletedAndVisibleAndLastLocationNotNull(false, true)
                 .stream()
-                .map { v -> VehicleDto(v.id, v.lastLocation?.lat, v.lastLocation?.lng, v.lastLocation?.at) }
+                .map { v -> VehicleDto(v.id, v.lastLocation?.lat, v.lastLocation?.lng, v.lastLocation?.at, v.direction) }
                 .collect(Collectors.toList())
     }
 
@@ -118,7 +123,7 @@ class VehicleServiceImpl(
     override fun findAllVehicles(): List<VehicleDto> {
         return vehicleRepository.findAllByDeleted(false)
                 .stream()
-                .map { v -> VehicleDto(v.id, v.lastLocation?.lat, v.lastLocation?.lng, v.lastLocation?.at) }
+                .map { v -> VehicleDto(v.id, v.lastLocation?.lat, v.lastLocation?.lng, v.lastLocation?.at, v.direction) }
                 .collect(Collectors.toList())
     }
 }

@@ -4,11 +4,13 @@ import PropTypes from 'prop-types';
 import MarkerStyled from './MarkerStyled';
 import MarkerInGroupStyled from './MarkerInGroupStyled';
 import Car from './Car';
+import ArrowTop from './ArrowTop';
 
 class Marker extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   static defaultProps = {
     inGroup: false,
+    text: ''
   };
 
   render() {
@@ -18,9 +20,14 @@ class Marker extends React.PureComponent {
           ? <MarkerInGroupStyled>
               <Car scale="0.55" />
             </MarkerInGroupStyled>
-          : <MarkerStyled>
+          : <div> 
+            <ArrowTop direction={this.props.text}/>
+            <MarkerStyled>
               <Car scale="0.55" />
-            </MarkerStyled>}
+            </MarkerStyled>
+            </div>
+            }
+          
       </div>
     );
   }
