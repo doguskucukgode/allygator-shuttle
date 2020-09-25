@@ -1,23 +1,21 @@
 package com.d2d.allygator.shuttle.service.impl
 
+
 import com.d2d.allygator.shuttle.config.PropertiesConfig
 import com.d2d.allygator.shuttle.dto.VehicleDto
 import com.d2d.allygator.shuttle.model.Location
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.assertAll
-
-
 import com.d2d.allygator.shuttle.model.Vehicle
 import com.d2d.allygator.shuttle.repository.VehicleRepository
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import java.time.LocalDateTime
 import java.util.*
-
 
 @ExtendWith(MockitoExtension::class)
 class VehicleServiceImplTest {

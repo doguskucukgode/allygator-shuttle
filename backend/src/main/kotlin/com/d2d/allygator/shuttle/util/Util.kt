@@ -5,6 +5,7 @@ import kotlin.math.*
 class Util {
 
     companion object {
+
         fun distance(lat1: Double, lon1: Double, lat2: Double, lon2: Double, unit: String): Double {
             return if (lat1 == lat2 && lon1 == lon2) {
                 0.0
@@ -27,21 +28,6 @@ class Util {
             val deltaY = lon2 - lon1
             val deltaX = lat2 - lat1
             return Math.toDegrees(atan2(deltaY, deltaX))
-        }
-        fun angleBetweenPoints2(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
-            val dx: Double = lat2 - lat1
-            // Minus to correct for coord re-mapping
-            // Minus to correct for coord re-mapping
-            val dy: Double = -(lon2 - lon1)
-
-            var inRads = Math.atan2(dy, dx)
-
-            // We need to map to coord system when 0 degree is at 3 O'clock, 270 at 12 O'clock
-
-            // We need to map to coord system when 0 degree is at 3 O'clock, 270 at 12 O'clock
-            inRads = if (inRads < 0) Math.abs(inRads) else 2 * Math.PI - inRads
-
-            return Math.toDegrees(inRads)
         }
     }
 }

@@ -2,7 +2,6 @@ package com.d2d.allygator.shuttle.rest
 
 import com.d2d.allygator.shuttle.dto.VehicleDto
 import com.d2d.allygator.shuttle.model.Location
-import com.d2d.allygator.shuttle.model.Vehicle
 import com.d2d.allygator.shuttle.service.VehicleService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test

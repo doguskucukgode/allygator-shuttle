@@ -20,4 +20,3 @@ class Vehicle(@Id var id: String,
         return result
     }
 }
-

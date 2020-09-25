@@ -2,7 +2,6 @@ package com.d2d.allygator.shuttle.rest
 
 import com.d2d.allygator.shuttle.dto.VehicleDto
 import com.d2d.allygator.shuttle.model.Location
-import com.d2d.allygator.shuttle.model.Vehicle
 import com.d2d.allygator.shuttle.service.VehicleService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -70,6 +69,4 @@ class VehicleResource(
         val allVehicle = vehicleService.findAllVehicles()
         return ResponseEntity(allVehicle, HttpStatus.OK)
     }
-
 }
-
