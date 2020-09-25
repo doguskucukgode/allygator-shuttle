@@ -6,7 +6,6 @@ import DrawMap from './DrawMap';
 import ClusterMarker from './ClusterMarker';
 import axios from "axios";
 import DefaultConstants from '../../config/Constants';
-import { runInThisContext } from 'vm';
 
 export class MapContainer extends React.PureComponent {
 
@@ -80,8 +79,8 @@ export class MapContainer extends React.PureComponent {
         return (
             <div style={{ height: '100vh', width: '100%' }}>
                 <GoogleMapReact
-                    defaultCenter={this.state.options.center}
-                    defaultZoom={this.state.options.zoom}
+                    center={this.state.options.center}
+                    zoom={this.state.options.zoom}
                     onChange={this.mapChange}
                     yesIWantToUseGoogleMapApiInternals
                     onGoogleApiLoaded={({ map, maps }) => DrawMap(map, maps)}
