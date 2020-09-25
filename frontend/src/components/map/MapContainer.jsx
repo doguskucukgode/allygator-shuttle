@@ -4,11 +4,9 @@ import supercluster from 'points-cluster';
 import Marker from './Marker';
 import DrawMap from './DrawMap';
 import ClusterMarker from './ClusterMarker';
-import axios from "axios";
-import DefaultConstants from '../../config/Constants';
+import { getVehicles } from '../api/VehicleApi';
 
 export class MapContainer extends React.PureComponent {
-
     state = {
         options: {
             center: {
@@ -33,16 +31,17 @@ export class MapContainer extends React.PureComponent {
 
     componentDidMount() {
         const interval = setInterval(() => {
-            axios
-                .get(DefaultConstants.API_BASE_URL + DefaultConstants.API_VEHICLE_LOCATIONS)
+            getVehicles()
                 .then(({ data }) => {
                     this.setState({ markers: data },
                         () => {
                             this.createClusters(this.props);
                         })
-                });
-
-        }, 1000);
+                })
+                .catch(({ e }) => {
+                    console.error("Connection error to API");
+                })
+        }, 1500);
         return () => clearInterval(interval);
     }
 
