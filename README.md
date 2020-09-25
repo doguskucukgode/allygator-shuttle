@@ -55,13 +55,15 @@ Project can be run with docker-compose basicly type `docker-compose up -d` in ro
         "id": "vehicle1",
         "lat": 11,
         "lng": 20,
-        "at": "2019-09-01T12:00:00.000+00:00"
+        "at": "2019-09-01T12:00:00.000+00:00",
+        "direction": 250
     },
     {
         "id": "vehicle2",
         "lat": null,
         "lng": null,
-        "at": null
+        "at": null,
+        "direction": null
     },
   ]
   ```
@@ -79,7 +81,8 @@ Project can be run with docker-compose basicly type `docker-compose up -d` in ro
          "id": "vehicle1",
          "lat": 11,
          "lng": 20,
-         "at": "2019-09-01T12:00:00.000+00:00"
+         "at": "2019-09-01T12:00:00.000+00:00",
+         "direction": 250
      }
    ]
    ```
