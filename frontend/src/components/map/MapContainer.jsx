@@ -32,11 +32,13 @@ export class MapContainer extends React.PureComponent {
     componentDidMount() {
         const interval = setInterval(() => {
             getVehicles()
-                .then(({ data }) => {
-                    this.setState({ markers: data },
-                        () => {
-                            this.createClusters(this.props);
-                        })
+                .then((data) => {
+                    if (data) {
+                        this.setState({ markers: data },
+                            () => {
+                                this.createClusters(this.props);
+                            })
+                    }
                 })
                 .catch(({ e }) => {
                     console.error("Connection error to API");
@@ -83,7 +85,6 @@ export class MapContainer extends React.PureComponent {
                     onChange={this.mapChange}
                     yesIWantToUseGoogleMapApiInternals
                     onGoogleApiLoaded={({ map, maps }) => DrawMap(map, maps)}
-                    bootstrapURLKeys={{ key: 'AIzaSyBpi7tqELqp-rvD0SI1lmrlEe0whsAA7vc' }}
                 >
                     {this.state.clusters.map(item => {
                         if (item.numPoints === 1) {
