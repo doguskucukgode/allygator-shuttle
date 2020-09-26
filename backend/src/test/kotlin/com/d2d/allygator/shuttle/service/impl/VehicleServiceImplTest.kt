@@ -5,6 +5,7 @@ import com.d2d.allygator.shuttle.config.PropertiesConfig
 import com.d2d.allygator.shuttle.dto.VehicleDto
 import com.d2d.allygator.shuttle.model.Location
 import com.d2d.allygator.shuttle.model.Vehicle
+import com.d2d.allygator.shuttle.repository.LocationArchiveRepository
 import com.d2d.allygator.shuttle.repository.VehicleRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -27,11 +28,12 @@ class VehicleServiceImplTest {
 
     private lateinit var vehicleServiceImpl: VehicleServiceImpl
     @Mock private lateinit var vehicleRepository: VehicleRepository
+    @Mock private lateinit var locationArchiveRepository: LocationArchiveRepository
     @Mock private lateinit var propertiesConfig: PropertiesConfig
 
     @BeforeEach
     fun setUp() {
-        vehicleServiceImpl = VehicleServiceImpl(vehicleRepository, propertiesConfig)
+        vehicleServiceImpl = VehicleServiceImpl(vehicleRepository, locationArchiveRepository, propertiesConfig)
     }
 
     @Test

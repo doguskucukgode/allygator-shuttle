@@ -4,7 +4,9 @@ import com.d2d.allygator.shuttle.util.Util
 import com.d2d.allygator.shuttle.config.PropertiesConfig
 import com.d2d.allygator.shuttle.dto.VehicleDto
 import com.d2d.allygator.shuttle.model.Location
+import com.d2d.allygator.shuttle.model.LocationArchive
 import com.d2d.allygator.shuttle.model.Vehicle
+import com.d2d.allygator.shuttle.repository.LocationArchiveRepository
 import com.d2d.allygator.shuttle.repository.VehicleRepository
 import com.d2d.allygator.shuttle.service.VehicleService
 import org.slf4j.LoggerFactory
@@ -15,6 +17,7 @@ import java.util.stream.Collectors
 @Service
 class VehicleServiceImpl(
         private val vehicleRepository: VehicleRepository,
+        private val locationArchiveRepository: LocationArchiveRepository,
         private val propertiesConfig: PropertiesConfig
 ) : VehicleService {
     private val logger = LoggerFactory.getLogger(VehicleServiceImpl::class.java)
@@ -50,6 +53,7 @@ class VehicleServiceImpl(
                             || Util.distance(propertiesConfig.locationCenterLat, propertiesConfig.locationCenterLng,
                             location.lat, location.lng, "M") <= propertiesConfig.locationCenterRadius) {
                         vehicle.visible = true;
+                        locationArchiveRepository.save(LocationArchive(vehicle.id, location))
                     } else {
                         vehicle.visible = false;
                         logger.warn(String.format("Vehicle %s is out of range", id))
