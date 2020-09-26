@@ -2,7 +2,7 @@
 
 - This project divided into two parts frontend and backend. 
 - Backend is written in SpringBoot and Kotlin with gradle build
-- Frontend is written in React 
+- Frontend is written in React and GoogleMapReact library
 - Data is stored in Mongo as long as Docker volume
 
 
