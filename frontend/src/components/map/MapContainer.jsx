@@ -83,6 +83,7 @@ export class MapContainer extends React.PureComponent {
                     onChange={this.mapChange}
                     yesIWantToUseGoogleMapApiInternals
                     onGoogleApiLoaded={({ map, maps }) => DrawMap(map, maps)}
+                    bootstrapURLKeys={{ key: 'AIzaSyBpi7tqELqp-rvD0SI1lmrlEe0whsAA7vc' }}
                 >
                     {this.state.clusters.map(item => {
                         if (item.numPoints === 1) {
