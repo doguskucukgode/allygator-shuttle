@@ -4,6 +4,7 @@ package com.d2d.allygator.shuttle.service.impl
 import com.d2d.allygator.shuttle.config.PropertiesConfig
 import com.d2d.allygator.shuttle.dto.VehicleDto
 import com.d2d.allygator.shuttle.model.Location
+import com.d2d.allygator.shuttle.model.LocationArchive
 import com.d2d.allygator.shuttle.model.Vehicle
 import com.d2d.allygator.shuttle.repository.LocationArchiveRepository
 import com.d2d.allygator.shuttle.repository.VehicleRepository
@@ -62,10 +63,13 @@ class VehicleServiceImplTest {
         // Arrange
         val vehicle = Vehicle(id = VEHICLE_NAME1, deleted = true)
         val location = Location(LOCATION_LAT, LOCATION_LNG, LOCATION_DATE)
+        val locationArchive = LocationArchive(VEHICLE_NAME1, location)
         Mockito.`when`(vehicleRepository.save(vehicle)).thenReturn(vehicle)
         Mockito.`when`(propertiesConfig.locationCenterDistanceCheck).thenReturn(false)
         Mockito.`when`(vehicleRepository.findByIdAndDeleted(VEHICLE_NAME1, false))
                 .thenReturn(Optional.of(vehicle))
+        Mockito.`when`(locationArchiveRepository.save(locationArchive))
+                .thenReturn(locationArchive)
 
         // Act
         val result = vehicleServiceImpl.updateVehicle(VEHICLE_NAME1, location)
@@ -90,9 +94,12 @@ class VehicleServiceImplTest {
         // Arrange
         val vehicle = Vehicle(id = VEHICLE_NAME1)
         val location = Location(LOCATION_LAT, LOCATION_LNG, LOCATION_DATE)
+        val locationArchive = LocationArchive(VEHICLE_NAME1, location)
         Mockito.`when`(propertiesConfig.locationCenterDistanceCheck).thenReturn(false)
         Mockito.`when`(vehicleRepository.findByIdAndDeleted(VEHICLE_NAME1, false))
                 .thenReturn(Optional.of(vehicle))
+        Mockito.`when`(locationArchiveRepository.save(locationArchive))
+                .thenReturn(locationArchive)
         Mockito.`when`(vehicleRepository.save(vehicle)).thenThrow(RuntimeException::class.java)
         // Act
         val result = vehicleServiceImpl.updateVehicle(VEHICLE_NAME1, location)
