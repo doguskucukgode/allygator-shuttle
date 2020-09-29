@@ -8,6 +8,9 @@
 
 ## Running project with docker
 Project can be run with docker-compose basicly type `docker-compose up -d` in root foolder. Backend can be accesible at http://localhost:8080 , mongo express at http://localhost:8081 and frontend at http://localhost:3000
+
+## Circle CI
+Project is configured Circle CI and pipelines are observable form [this link](https://app.circleci.com/pipelines/github/doguskucukgode/allygator-shuttle?branch=master)
  
 ## Rest api calls
 - ### Vehicle registration
