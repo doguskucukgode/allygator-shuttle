@@ -1,9 +1,9 @@
 
-export default function DrawMap(map, maps) {
+export default function DrawMap(config, map, maps) {
     var center = {
-        lat: 52.53, lng: 13.403
+        lat: config.centerLat, lng: config.centerLng
     };
-    var radius = 3500;
+    var radius = config.centerRadius;
 
     new maps.Circle({
         strokeColor: '#D3D3D3',

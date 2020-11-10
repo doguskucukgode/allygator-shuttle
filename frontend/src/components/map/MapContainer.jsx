@@ -84,7 +84,7 @@ export class MapContainer extends React.PureComponent {
                     zoom={this.state.options.zoom}
                     onChange={this.mapChange}
                     yesIWantToUseGoogleMapApiInternals
-                    onGoogleApiLoaded={({ map, maps }) => DrawMap(map, maps)}
+                    onGoogleApiLoaded={({ map, maps }) => DrawMap(this.props.config, map, maps)}
                 >
                     {this.state.clusters.map(item => {
                         if (item.numPoints === 1) {

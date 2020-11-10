@@ -36,7 +36,13 @@ services:
       - "3000:80"
     networks:
       - allygator-network
-    env_file: docker.env
+    environment:
+      - 'CONFIG={
+        "centerLat" : ${CENTER_LAT},
+        "centerLng" : ${CENTER_LNG},
+        "centerRadius" : ${CENTER_RADIUS},
+        "centerRadiusCheck" : ${CENTER_RADIUS_CHECK}
+      }'
 volumes:
   mongo-data:
 networks:
