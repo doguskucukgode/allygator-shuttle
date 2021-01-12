@@ -5,6 +5,7 @@
 - Frontend is written in React and GoogleMapReact library
 - Data is stored in Mongo as long as Docker volume
 
+![alt text](./static/ss_berlin.png "Sample Output")
 
 ## Running project with docker
 Project can be run with docker-compose basicly type `docker-compose up -d` in root foolder. Backend can be accesible at http://localhost:8080 , mongo express at http://localhost:8081 and frontend at http://localhost:3000
